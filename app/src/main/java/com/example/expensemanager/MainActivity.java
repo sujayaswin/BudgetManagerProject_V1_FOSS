@@ -183,7 +183,8 @@ public class MainActivity extends AppCompatActivity {
         refresh();
     }
 
-    private void refresh() {
+    // Changed from private to public so fragments can call it
+    public void refresh() {
         Calendar cal = Calendar.getInstance();
         cal.set(Calendar.YEAR, showYear);
         cal.set(Calendar.MONTH, showMonth - 1);

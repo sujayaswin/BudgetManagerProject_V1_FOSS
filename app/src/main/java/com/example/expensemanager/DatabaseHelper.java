@@ -62,6 +62,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cv.put("note", e.note);
         return db.insert(TABLE, null, cv);
     }
+    
+    public void delete(long id) {
+        SQLiteDatabase db = getWritableDatabase();
+        db.delete(TABLE, "id = ?", new String[]{String.valueOf(id)});
+    }
 
     public ArrayList<Expense> listAll() {
         ArrayList<Expense> out = new ArrayList<>();
