@@ -1,0 +1,25 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+// /build.gradle (Project: BudgetManagerProject)
+
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        // Example: classpath 'com.android.tools.build:gradle:8.x.x'
+        // Add classpath dependencies for your build tools here, not library dependencies.
+    }
+}
+
+plugins {
+    id 'com.android.application' version '8.13.1' apply false
+    // Add other plugins like library or kotlin here if needed
+}
+
+// build.gradle
+
+// ... (other configurations)
+
+// The "allprojects" block has been removed.

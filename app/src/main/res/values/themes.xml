@@ -1,0 +1,34 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.BudgetManagerProject" parent="Theme.Material3.DayNight.NoActionBar">
+
+        <!-- Primary brand color (for the top Toolbar) -->
+        <item name="colorPrimary">#FFB74D</item> <!-- Light Orange -->
+        <item name="colorOnPrimary">#000000</item> <!-- Black text on the Toolbar -->
+
+        <!-- Accent color (for buttons and controls) -->
+        <item name="colorSecondary">#FF9800</item>
+        <item name="colorOnSecondary">#000000</item>
+
+        <!-- Control the color of icons (like the overflow menu) -->
+        <item name="colorControlNormal">#000000</item> <!-- Black Icons -->
+
+        <!--
+            THIS IS THE FIX: Set the background to white and text to black
+        -->
+        <item name="android:windowBackground">#FFFFFF</item> <!-- Pure White Background -->
+        <item name="android:colorBackground">#FFFFFF</item>  <!-- Fallback for Background -->
+        <item name="colorSurface">#FFFFFF</item>            <!-- Color for surfaces like Cards -->
+
+        <item name="colorOnBackground">#000000</item>       <!-- Black text on the background -->
+        <item name="colorOnSurface">#000000</item>          <!-- Black text on surfaces -->
+        <!-- END OF FIX -->
+
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">#FFA726</item> <!-- Darker shade of the primary color -->
+
+        <!-- Ensure hint text is readable -->
+        <item name="android:textColorHint">#8A000000</item> <!-- Semi-transparent black for hints -->
+
+    </style>
+</resources>
