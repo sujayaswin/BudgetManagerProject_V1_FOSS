@@ -7,15 +7,20 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap; // <<< Import HashMap
+import java.util.HashMap;
 import java.util.Locale;
-import java.util.Map;   // <<< Import Map
+import java.util.Map;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String DB_NAME = "expenses.db";
@@ -125,7 +130,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return out;
     }
 
-    // <<< THIS IS THE NEW METHOD FOR THE PIE CHART >>>
     public Map<String, Double> getCategoryTotalsForMonth(int year, int month) {
         Map<String, Double> categoryTotals = new HashMap<>();
         SQLiteDatabase db = this.getReadableDatabase();
@@ -141,27 +145,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 String category = cursor.getString(0);
                 String type = cursor.getString(1);
                 double total = cursor.getDouble(2);
-
-                // Store expense totals as negative numbers to differentiate
                 double amount = type.equals("INCOME") ? total : -total;
-
-                // If the category already exists, add to it. Otherwise, create a new entry.
                 categoryTotals.put(category, categoryTotals.getOrDefault(category, 0.0) + amount);
 
             } while (cursor.moveToNext());
         }
         cursor.close();
-        // It's often better not to close the database here if other operations follow
-        // db.close();
         return categoryTotals;
     }
-    // <<< END OF NEW METHOD >>>
 
+    // Keep legacy File method if needed, but added OutputStream method for SAF
     public File exportCsv(File targetFile) throws Exception {
         ArrayList<Expense> all = listAll();
         FileWriter fw = new FileWriter(targetFile);
         fw.write("date,timestamp,type,category,amount,note\n");
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
         for (Expense e : all) {
             String note = e.note == null ? "" : e.note.replace("\n", " ").replace(",", " ");
             String cat = e.category == null ? "" : e.category.replace(",", " ");
@@ -173,15 +170,51 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return targetFile;
     }
 
+    public void exportCsv(OutputStream out) throws Exception {
+        ArrayList<Expense> all = listAll();
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(out));
+        bw.write("date,timestamp,type,category,amount,note\n");
+        for (Expense e : all) {
+            String note = e.note == null ? "" : e.note.replace("\n", " ").replace(",", " ");
+            String cat = e.category == null ? "" : e.category.replace(",", " ");
+            String line = String.format(Locale.US, "%s,%d,%s,%s,%.2f,%s\n", e.date, e.timestamp, e.type, cat, e.amount, note);
+            bw.write(line);
+        }
+        bw.flush();
+        bw.close();
+    }
+
+    // Keep legacy File method if needed
     public int importCsv(File srcFile) throws Exception {
         int count = 0;
         BufferedReader br = new BufferedReader(new FileReader(srcFile));
-        String header = br.readLine(); // skip
-        String line;
+        String line = br.readLine(); // skip header
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
         while ((line = br.readLine()) != null) {
+            processLine(line, sdf);
+            count++;
+        }
+        br.close();
+        return count;
+    }
+
+    public int importCsv(InputStream in) throws Exception {
+        int count = 0;
+        BufferedReader br = new BufferedReader(new InputStreamReader(in));
+        String line = br.readLine(); // skip header
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
+        while ((line = br.readLine()) != null) {
+            processLine(line, sdf);
+            count++;
+        }
+        br.close();
+        return count;
+    }
+
+    private void processLine(String line, SimpleDateFormat sdf) {
+        try {
             String[] parts = line.split(",");
-            if (parts.length < 6) continue;
+            if (parts.length < 6) return;
             String date = parts[0].trim();
             long timestamp;
             try {
@@ -197,10 +230,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             String note = parts[5].trim();
             Expense e = new Expense(timestamp, date, type, category, amount, note);
             insert(e);
-            count++;
-        }
-        br.close();
-        return count;
+        } catch (Exception ignored) {}
     }
 
     public static class CategorySum {

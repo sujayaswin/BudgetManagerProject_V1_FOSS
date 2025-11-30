@@ -4,13 +4,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Environment;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -22,7 +23,8 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 
-import java.io.File;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -34,6 +36,10 @@ public class MainActivity extends AppCompatActivity {
     DatabaseHelper db;
     TextView tvMonth;
     int showYear, showMonth; // month is 1-12
+    
+    // SAF Launchers
+    private ActivityResultLauncher<String> createDocumentLauncher;
+    private ActivityResultLauncher<String[]> openDocumentLauncher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +53,37 @@ public class MainActivity extends AppCompatActivity {
         // -----------------------
 
         initializeDefaultCategories();
+        
+        // --- Initialize SAF Launchers ---
+        createDocumentLauncher = registerForActivityResult(new ActivityResultContracts.CreateDocument("text/csv"), uri -> {
+            if (uri != null) {
+                try {
+                    OutputStream out = getContentResolver().openOutputStream(uri);
+                    if (out != null) {
+                        db.exportCsv(out);
+                        Toast.makeText(this, "Exported successfully", Toast.LENGTH_LONG).show();
+                    }
+                } catch (Exception e) {
+                    Toast.makeText(this, "Export failed: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
+        openDocumentLauncher = registerForActivityResult(new ActivityResultContracts.OpenDocument(), uri -> {
+            if (uri != null) {
+                try {
+                    InputStream in = getContentResolver().openInputStream(uri);
+                    if (in != null) {
+                        int count = db.importCsv(in);
+                        Toast.makeText(this, "Imported " + count + " rows", Toast.LENGTH_LONG).show();
+                        refresh();
+                    }
+                } catch (Exception e) {
+                    Toast.makeText(this, "Import failed: " + e.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
 
         // --- Initialize Views ---
         tvMonth = findViewById(R.id.tvMonth);
@@ -166,49 +203,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void doExport() {
-        try {
-            File dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
-            if (dir == null) dir = getExternalFilesDir(null);
-            
-            if (dir != null) {
-                if (!dir.exists()) {
-                    if (!dir.mkdirs()) {
-                        Toast.makeText(this, "Could not create directory: " + dir.getAbsolutePath(), Toast.LENGTH_LONG).show();
-                        return;
-                    }
-                }
-                String fileName = "expenses_export_" + new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(new java.util.Date()) + ".csv";
-                File out = new File(dir, fileName);
-                db.exportCsv(out);
-                Toast.makeText(this, "Exported to " + out.getAbsolutePath(), Toast.LENGTH_LONG).show();
-            } else {
-                Toast.makeText(this, "Could not access storage.", Toast.LENGTH_LONG).show();
-            }
-        } catch (Exception ex) {
-            Toast.makeText(this, "Export failed: " + ex.getMessage(), Toast.LENGTH_LONG).show();
-        }
+        String fileName = "expenses_export_" + new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(new java.util.Date()) + ".csv";
+        createDocumentLauncher.launch(fileName);
     }
 
     private void doImport() {
-        try {
-            File dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
-            if (dir == null) dir = getExternalFilesDir(null);
-            
-            if (dir != null) {
-                File f = new File(dir, "import.csv");
-                if (!f.exists()) {
-                    Toast.makeText(this, "Place a file named import.csv in Downloads: " + dir.getAbsolutePath(), Toast.LENGTH_LONG).show();
-                    return;
-                }
-                int added = db.importCsv(f);
-                Toast.makeText(this, "Imported " + added + " rows", Toast.LENGTH_LONG).show();
-                refresh();
-            } else {
-                 Toast.makeText(this, "Could not access storage.", Toast.LENGTH_LONG).show();
-            }
-        } catch (Exception ex) {
-            Toast.makeText(this, "Import failed: " + ex.getMessage(), Toast.LENGTH_LONG).show();
-        }
+        openDocumentLauncher.launch(new String[]{"text/csv", "text/comma-separated-values", "application/csv", "text/plain"});
     }
 
     public int getShowYear() {
