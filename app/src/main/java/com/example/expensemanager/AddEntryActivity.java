@@ -71,7 +71,8 @@ public class AddEntryActivity extends AppCompatActivity {
 
         // 3. Show the dialog on click
         etDate.setOnClickListener(v -> {
-            new DatePickerDialog(AddEntryActivity.this, date,
+            // Use custom theme for DatePicker to ensure visibility
+            new DatePickerDialog(AddEntryActivity.this, R.style.CustomDatePickerTheme, date,
                     myCalendar.get(Calendar.YEAR),
                     myCalendar.get(Calendar.MONTH),
                     myCalendar.get(Calendar.DAY_OF_MONTH)).show();

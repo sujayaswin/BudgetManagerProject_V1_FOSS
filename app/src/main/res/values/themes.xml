@@ -31,4 +31,14 @@
         <item name="android:textColorHint">#8A000000</item> <!-- Semi-transparent black for hints -->
 
     </style>
+
+    <!-- Custom Date Picker Theme -->
+    <style name="CustomDatePickerTheme" parent="Theme.Material3.DayNight.Dialog">
+        <item name="colorOnPrimary">#000000</item>
+        <item name="colorOnSurface">#000000</item>
+        <item name="colorPrimary">#FFB74D</item>
+        <item name="colorAccent">#FF9800</item>
+        <item name="android:textColorPrimary">#000000</item>
+        <item name="android:textColorSecondary">#000000</item>
+    </style>
 </resources>
