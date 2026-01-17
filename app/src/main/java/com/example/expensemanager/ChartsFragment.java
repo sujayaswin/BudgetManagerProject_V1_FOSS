@@ -20,6 +20,7 @@ import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Map;
 
 public class ChartsFragment extends Fragment {
@@ -59,8 +60,6 @@ public class ChartsFragment extends Fragment {
     public void updateData(int year, int month) {
         if (getContext() == null) return;
         
-        // Update Title
-        // Note: Getting month name might be better, but for simplicity keeping it generic or handled by formatting
         tvChartTitle.setText("Expense Breakdown");
 
         Map<String, Double> categoryTotals = db.getCategoryTotalsForMonth(year, month);
@@ -80,16 +79,21 @@ public class ChartsFragment extends Fragment {
         if (entries.isEmpty()) {
              pieChart.clear();
              pieChart.setNoDataText("No expense data available for this month.");
+             pieChart.invalidate();
              return;
         }
 
+        // Use a much larger and more diverse set of colors
         ArrayList<Integer> colors = new ArrayList<>();
-        for (int color : ColorTemplate.MATERIAL_COLORS) {
-            colors.add(color);
-        }
-        for (int color : ColorTemplate.VORDIPLOM_COLORS) {
-            colors.add(color);
-        }
+        for (int c : ColorTemplate.VORDIPLOM_COLORS) colors.add(c);
+        for (int c : ColorTemplate.JOYFUL_COLORS) colors.add(c);
+        for (int c : ColorTemplate.COLORFUL_COLORS) colors.add(c);
+        for (int c : ColorTemplate.LIBERTY_COLORS) colors.add(c);
+        for (int c : ColorTemplate.PASTEL_COLORS) colors.add(c);
+        colors.add(ColorTemplate.getHoloBlue());
+        
+        // Shuffle to prevent the same categories from getting the same colors in different months
+        Collections.shuffle(colors);
 
         PieDataSet dataSet = new PieDataSet(entries, "Expense Categories");
         dataSet.setColors(colors);

@@ -14,7 +14,7 @@ buildscript {
 }
 
 plugins {
-    id 'com.android.application' version '8.13.1' apply false
+    id 'com.android.application' version '8.13.2' apply false
     // Add other plugins like library or kotlin here if needed
 }
 
