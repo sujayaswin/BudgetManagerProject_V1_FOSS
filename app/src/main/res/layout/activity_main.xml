@@ -31,13 +31,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="JAN-2025"
+            tools:text="JAN-2025"
             android:textSize="20sp"
             android:textStyle="bold"
             android:textColor="#000000" />
 
         <!-- Prev Button -->
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnPrev"
             style="@style/Widget.MaterialComponents.Button"
             android:layout_width="48dp"
@@ -52,13 +52,13 @@
             android:contentDescription="@string/previous_month"
             app:cornerRadius="24dp"
             app:icon="@drawable/ic_chevron_left"
-            app:iconGravity="textStart"
+            app:iconGravity="start"
             app:iconPadding="0dp"
             app:iconTint="#000000"
             android:backgroundTint="?attr/colorPrimary"/>
 
         <!-- Next Button -->
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnNext"
             style="@style/Widget.MaterialComponents.Button"
             android:layout_width="48dp"
@@ -73,7 +73,7 @@
             android:contentDescription="@string/next_month"
             app:cornerRadius="24dp"
             app:icon="@drawable/ic_chevron_right"
-            app:iconGravity="textStart"
+            app:iconGravity="start"
             app:iconPadding="0dp"
             app:iconTint="#000000"
             android:backgroundTint="?attr/colorPrimary"/>
@@ -110,7 +110,7 @@
             android:layout_height="wrap_content"
             android:paddingTop="12dp"
             android:paddingBottom="12dp"
-            android:text="Add Transaction"
+            android:text="@string/add_transaction"
             android:textSize="16sp" />
 
     </LinearLayout>
