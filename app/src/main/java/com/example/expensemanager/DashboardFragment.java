@@ -62,10 +62,17 @@ public class DashboardFragment extends Fragment {
         TransactionAdapter adapter = new TransactionAdapter(requireContext(), transactions);
         lvTransactions.setAdapter(adapter);
         
-        new AlertDialog.Builder(requireContext())
+        AlertDialog dialog = new AlertDialog.Builder(requireContext())
                 .setView(dialogView)
                 .setPositiveButton("Close", null)
-                .show();
+                .create();
+
+        dialog.setOnShowListener(dialogInterface -> {
+            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.BLACK);
+            dialog.getWindow().setBackgroundDrawableResource(android.R.color.white);
+        });
+
+        dialog.show();
     }
 
     public void updateData(int year, int month) {

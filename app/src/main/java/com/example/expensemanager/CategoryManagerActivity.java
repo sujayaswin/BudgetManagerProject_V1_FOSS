@@ -119,15 +119,24 @@ public class CategoryManagerActivity extends AppCompatActivity {
         String newCategory = editText.getText().toString().trim();
         if (newCategory.isEmpty()) {
             Toast.makeText(this, "Category name cannot be empty", Toast.LENGTH_SHORT).show();
-        } else if (categoryList.stream().anyMatch(s -> s.equalsIgnoreCase(newCategory))) {
-            Toast.makeText(this, "Category already exists", Toast.LENGTH_SHORT).show();
         } else {
-            categoryList.add(newCategory);
-            Collections.sort(categoryList);
-            adapter.notifyDataSetChanged();
-            saveCategoryList(categoryList, key);
-            editText.setText("");
-            Toast.makeText(this, "Category added", Toast.LENGTH_SHORT).show();
+            boolean exists = false;
+            for (String s : categoryList) {
+                if (s.equalsIgnoreCase(newCategory)) {
+                    exists = true;
+                    break;
+                }
+            }
+            if (exists) {
+                Toast.makeText(this, "Category already exists", Toast.LENGTH_SHORT).show();
+            } else {
+                categoryList.add(newCategory);
+                Collections.sort(categoryList);
+                adapter.notifyDataSetChanged();
+                saveCategoryList(categoryList, key);
+                editText.setText("");
+                Toast.makeText(this, "Category added", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
