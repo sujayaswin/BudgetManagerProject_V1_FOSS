@@ -8,9 +8,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -173,22 +170,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return categoryTotals;
     }
 
-    // Keep legacy File method if needed, but added OutputStream method for SAF
-    public File exportCsv(File targetFile) throws Exception {
-        ArrayList<Expense> all = listAll();
-        FileWriter fw = new FileWriter(targetFile);
-        fw.write("date,timestamp,type,category,amount,note\n");
-        for (Expense e : all) {
-            String note = e.note == null ? "" : e.note.replace("\n", " ").replace(",", " ");
-            String cat = e.category == null ? "" : e.category.replace(",", " ");
-            String line = String.format(Locale.US, "%s,%d,%s,%s,%.2f,%s\n", e.date, e.timestamp, e.type, cat, e.amount, note);
-            fw.write(line);
-        }
-        fw.flush();
-        fw.close();
-        return targetFile;
-    }
-
     public void exportCsv(OutputStream out) throws Exception {
         ArrayList<Expense> all = listAll();
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(out));
@@ -201,20 +182,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
         bw.flush();
         bw.close();
-    }
-
-    // Keep legacy File method if needed
-    public int importCsv(File srcFile) throws Exception {
-        int count = 0;
-        BufferedReader br = new BufferedReader(new FileReader(srcFile));
-        String line = br.readLine(); // skip header
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.US);
-        while ((line = br.readLine()) != null) {
-            processLine(line, sdf);
-            count++;
-        }
-        br.close();
-        return count;
     }
 
     public int importCsv(InputStream in) throws Exception {
