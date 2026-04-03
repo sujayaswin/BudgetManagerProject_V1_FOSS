@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">BudgetManagerProject</string>
+    <string name="previous_month">Previous Month</string>
+    <string name="next_month">Next Month</string>
 
     <!-- Add this new string resource for the privacy policy -->
     <string name="privacy_policy_text">

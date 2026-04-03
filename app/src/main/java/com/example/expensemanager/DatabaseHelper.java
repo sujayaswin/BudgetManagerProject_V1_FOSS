@@ -88,11 +88,25 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     public ArrayList<Expense> listForMonth(int year, int month) {
+        return listForMonthAndCategory(year, month, null);
+    }
+
+    public ArrayList<Expense> listForMonthAndCategory(int year, int month, String category) {
         // month is 1-12
         ArrayList<Expense> out = new ArrayList<>();
         String prefix = String.format(Locale.US, "%04d-%02d-", year, month);
         SQLiteDatabase db = getReadableDatabase();
-        Cursor c = db.query(TABLE, null, "date LIKE ?", new String[]{prefix + "%"}, null, null, "timestamp DESC");
+        
+        String selection = "date LIKE ?";
+        String[] selectionArgs;
+        if (category != null) {
+            selection += " AND category = ?";
+            selectionArgs = new String[]{prefix + "%", category};
+        } else {
+            selectionArgs = new String[]{prefix + "%"};
+        }
+
+        Cursor c = db.query(TABLE, null, selection, selectionArgs, null, null, "timestamp DESC");
         while (c.moveToNext()) {
             Expense e = new Expense();
             e.id = c.getLong(c.getColumnIndex("id"));

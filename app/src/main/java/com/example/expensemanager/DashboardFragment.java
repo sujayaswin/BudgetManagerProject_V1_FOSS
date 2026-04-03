@@ -1,10 +1,12 @@
 package com.example.expensemanager;
 
+import android.app.AlertDialog;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -23,6 +25,8 @@ public class DashboardFragment extends Fragment {
     private TextView tvIncome, tvExpense, tvBalance;
     private ListView lvCategoryTotals;
     private DatabaseHelper db;
+    private List<String> categoryNames = new ArrayList<>();
+    private int currentYear, currentMonth;
 
     @Nullable
     @Override
@@ -36,11 +40,39 @@ public class DashboardFragment extends Fragment {
 
         db = new DatabaseHelper(requireContext());
 
+        lvCategoryTotals.setOnItemLongClickListener((parent, view1, position, id) -> {
+            if (position < categoryNames.size()) {
+                showCategoryTransactionsPopup(categoryNames.get(position));
+            }
+            return true;
+        });
+
         return view;
+    }
+
+    private void showCategoryTransactionsPopup(String category) {
+        ArrayList<Expense> transactions = db.listForMonthAndCategory(currentYear, currentMonth, category);
+        
+        View dialogView = LayoutInflater.from(getContext()).inflate(R.layout.dialog_category_transactions, null);
+        ListView lvTransactions = dialogView.findViewById(R.id.lvTransactions);
+        TextView tvTitle = dialogView.findViewById(R.id.tvTitle);
+        
+        tvTitle.setText("Transactions: " + category);
+        
+        TransactionAdapter adapter = new TransactionAdapter(requireContext(), transactions);
+        lvTransactions.setAdapter(adapter);
+        
+        new AlertDialog.Builder(requireContext())
+                .setView(dialogView)
+                .setPositiveButton("Close", null)
+                .show();
     }
 
     public void updateData(int year, int month) {
         if (getContext() == null) return;
+        
+        this.currentYear = year;
+        this.currentMonth = month;
 
         double income = db.totalForMonthAndType(year, month, "INCOME");
         double expense = db.totalForMonthAndType(year, month, "EXPENSE");
@@ -49,17 +81,13 @@ public class DashboardFragment extends Fragment {
         tvExpense.setText(String.format(Locale.US, "%.2f", expense));
         tvBalance.setText(String.format(Locale.US, "%.2f", income - expense));
 
-        // Colors are set in XML, but we can enforce them or add logic here if needed.
-        // For now, relying on XML is cleaner.
-        // tvIncome.setTextColor(Color.parseColor("#388E3C"));
-        // tvExpense.setTextColor(Color.parseColor("#D32F2F"));
-        // tvBalance.setTextColor(Color.parseColor("#212121"));
-
         // Category Totals
         Map<String, Double> categoryTotals = db.getCategoryTotalsForMonth(year, month);
         List<String> displayList = new ArrayList<>();
+        categoryNames.clear();
         if (categoryTotals != null) {
             for (Map.Entry<String, Double> entry : categoryTotals.entrySet()) {
+                categoryNames.add(entry.getKey());
                 displayList.add(entry.getKey() + ": " + String.format(Locale.US, "%.2f", Math.abs(entry.getValue())));
             }
         }
