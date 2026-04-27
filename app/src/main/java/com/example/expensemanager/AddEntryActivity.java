@@ -95,7 +95,10 @@ public class AddEntryActivity extends AppCompatActivity {
         });
 
         // --- Set Button Listeners ---
-        btnSave.setOnClickListener(v -> save());
+        btnSave.setOnClickListener(v -> {
+            v.setEnabled(false); // Prevent double-clicks
+            save();
+        });
         btnCancel.setOnClickListener(v -> finish());
     }
 
