@@ -107,7 +107,7 @@
         android:paddingStart="12dp"
         android:paddingEnd="12dp"
         android:paddingTop="12dp"
-        android:paddingBottom="32dp"
+        android:paddingBottom="64dp"
         android:orientation="horizontal">
 
         <Button
