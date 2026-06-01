@@ -186,6 +186,7 @@ public class MainActivity extends AppCompatActivity {
     // Changed from private to public so fragments can call it
     public void refresh() {
         Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.DAY_OF_MONTH, 1); // Set to 1st to avoid overflow (e.g., Jan 31 -> Feb 31 -> Mar 3)
         cal.set(Calendar.YEAR, showYear);
         cal.set(Calendar.MONTH, showMonth - 1);
         SimpleDateFormat dateFormat = new SimpleDateFormat("MMM-yyyy", Locale.US);
