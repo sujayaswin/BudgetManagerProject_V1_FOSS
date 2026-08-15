@@ -84,9 +84,19 @@ public class DashboardFragment extends Fragment {
         double income = db.totalForMonthAndType(year, month, "INCOME");
         double expense = db.totalForMonthAndType(year, month, "EXPENSE");
 
+        double balance = income - expense;
         tvIncome.setText(String.format(Locale.US, "%.2f", income));
         tvExpense.setText(String.format(Locale.US, "%.2f", expense));
-        tvBalance.setText(String.format(Locale.US, "%.2f", income - expense));
+        tvBalance.setText(String.format(Locale.US, "%.2f", balance));
+
+        // Dynamically set balance color
+        if (balance > 0) {
+            tvBalance.setTextColor(Color.parseColor("#388E3C")); // Green
+        } else if (balance < 0) {
+            tvBalance.setTextColor(Color.parseColor("#D32F2F")); // Red
+        } else {
+            tvBalance.setTextColor(Color.parseColor("#1976D2")); // Blue for zero
+        }
 
         // Category Totals
         Map<String, Double> categoryTotals = db.getCategoryTotalsForMonth(year, month);

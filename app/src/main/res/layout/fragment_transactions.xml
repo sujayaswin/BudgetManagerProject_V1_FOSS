@@ -8,14 +8,16 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Transactions"
+        android:text="@string/label_transactions"
         android:textStyle="bold"
         android:textSize="18sp"
+        android:textColor="#000000"
         android:paddingBottom="8dp"/>
 
     <ListView
         android:id="@+id/lvTransactions"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:divider="?android:attr/listDivider"
         android:dividerHeight="1dp" />
 </LinearLayout>

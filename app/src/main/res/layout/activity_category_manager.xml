@@ -11,7 +11,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Expense Categories"
+        android:text="@string/label_expense_categories"
         android:textSize="18sp"
         android:textStyle="bold"
         android:textColor="#000000" />
@@ -20,29 +20,37 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="8dp">
+        android:layout_marginTop="8dp"
+        android:gravity="center_vertical">
 
-        <EditText
-            android:id="@+id/etNewExpenseCategory"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:hint="New expense category"
-            android:inputType="textCapWords"
-            android:textColor="#000000"
-            android:textColorHint="#616161"/>
+            android:hint="@string/hint_new_category"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
 
-        <Button
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etNewExpenseCategory"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textCapWords"
+                android:textColor="#000000"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnAddExpenseCategory"
+            style="@style/Widget.Material3.Button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Add"/>
+            android:layout_marginStart="8dp"
+            android:text="@string/label_add"/>
     </LinearLayout>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Long-press to delete"
+        android:text="@string/label_long_press_delete"
         android:textSize="12sp"
         android:textColor="#424242"
         android:layout_marginBottom="4dp"/>
@@ -59,7 +67,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Income Categories"
+        android:text="@string/label_income_categories"
         android:textSize="18sp"
         android:textStyle="bold"
         android:textColor="#000000" />
@@ -68,29 +76,37 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="8dp">
+        android:layout_marginTop="8dp"
+        android:gravity="center_vertical">
 
-        <EditText
-            android:id="@+id/etNewIncomeCategory"
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:hint="New income category"
-            android:inputType="textCapWords"
-            android:textColor="#000000"
-            android:textColorHint="#616161"/>
+            android:hint="@string/hint_new_category"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
 
-        <Button
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etNewIncomeCategory"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textCapWords"
+                android:textColor="#000000"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnAddIncomeCategory"
+            style="@style/Widget.Material3.Button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Add"/>
+            android:layout_marginStart="8dp"
+            android:text="@string/label_add"/>
     </LinearLayout>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Long-press to delete"
+        android:text="@string/label_long_press_delete"
         android:textSize="12sp"
         android:textColor="#424242"
         android:layout_marginBottom="4dp"/>

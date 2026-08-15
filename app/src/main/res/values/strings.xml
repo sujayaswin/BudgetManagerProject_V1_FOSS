@@ -3,6 +3,23 @@
     <string name="previous_month">Previous Month</string>
     <string name="next_month">Next Month</string>
     <string name="add_transaction">Add Transaction</string>
+    <string name="hint_date">Date (YYYY-MM-DD)</string>
+    <string name="hint_amount">Amount</string>
+    <string name="label_category">Category</string>
+    <string name="hint_note">Note</string>
+    <string name="label_save">Save</string>
+    <string name="label_cancel">Cancel</string>
+    <string name="label_expense_categories">Expense Categories</string>
+    <string name="label_income_categories">Income Categories</string>
+    <string name="hint_new_category">New category</string>
+    <string name="label_add">Add</string>
+    <string name="label_long_press_delete">Long-press to delete</string>
+    <string name="label_income">Income</string>
+    <string name="label_expense">Expense</string>
+    <string name="label_balance">Balance</string>
+    <string name="label_category_wise_total">Category Wise Total</string>
+    <string name="label_transactions">Transactions</string>
+    <string name="label_expense_breakdown">Expense Breakdown</string>
 
     <!-- Add this new string resource for the privacy policy -->
     <string name="privacy_policy_text">

@@ -8,7 +8,7 @@
     tools:context=".MainActivity">
 
     <!-- The Toolbar for the app title -->
-    <androidx.appcompat.widget.Toolbar
+    <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -42,7 +42,7 @@
         <!-- Prev Button -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnPrev"
-            style="@style/Widget.MaterialComponents.Button"
+            style="@style/Widget.Material3.Button.IconButton.Filled"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_toStartOf="@id/tvMonth"
@@ -53,9 +53,8 @@
             android:insetTop="0dp"
             android:insetBottom="0dp"
             android:contentDescription="@string/previous_month"
-            app:cornerRadius="24dp"
             app:icon="@drawable/ic_chevron_left"
-            app:iconGravity="start"
+            app:iconGravity="textStart"
             app:iconPadding="0dp"
             app:iconTint="#000000"
             android:backgroundTint="?attr/colorPrimary"/>
@@ -63,7 +62,7 @@
         <!-- Next Button -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnNext"
-            style="@style/Widget.MaterialComponents.Button"
+            style="@style/Widget.Material3.Button.IconButton.Filled"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_toEndOf="@id/tvMonth"
@@ -74,9 +73,8 @@
             android:insetTop="0dp"
             android:insetBottom="0dp"
             android:contentDescription="@string/next_month"
-            app:cornerRadius="24dp"
             app:icon="@drawable/ic_chevron_right"
-            app:iconGravity="start"
+            app:iconGravity="textStart"
             app:iconPadding="0dp"
             app:iconTint="#000000"
             android:backgroundTint="?attr/colorPrimary"/>
@@ -110,8 +108,9 @@
         android:paddingBottom="64dp"
         android:orientation="horizontal">
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnAdd"
+            style="@style/Widget.Material3.Button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="12dp"

@@ -1,96 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="12dp">
 
-    <!-- Income, Expense, and Balance Info -->
-    <LinearLayout
+    <!-- Summary Cards -->
+    <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:baselineAligned="false"
-        android:paddingBottom="16dp">
+        app:cardCornerRadius="12dp"
+        app:cardElevation="2dp"
+        app:contentPadding="16dp"
+        android:layout_marginBottom="16dp"
+        style="@style/Widget.Material3.CardView.Elevated">
 
-        <!-- Income -->
         <LinearLayout
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Income"
-                android:textSize="14sp"
-                android:textStyle="bold"
-                android:textColor="#388E3C"/>
-            <TextView
-                android:id="@+id/tvIncome"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="0.00"
-                android:textSize="16sp"
-                android:textColor="#388E3C"/>
-        </LinearLayout>
+            android:orientation="horizontal"
+            android:baselineAligned="false">
 
-        <!-- Expense -->
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
-            <TextView
-                android:layout_width="wrap_content"
+            <!-- Income -->
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Expense"
-                android:textSize="14sp"
-                android:textStyle="bold"
-                android:textColor="#D32F2F"/>
-            <TextView
-                android:id="@+id/tvExpense"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="0.00"
-                android:textSize="16sp"
-                android:textColor="#D32F2F"/>
-        </LinearLayout>
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_income"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    android:textColor="#757575"/>
+                <TextView
+                    android:id="@+id/tvIncome"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0.00"
+                    android:textSize="18sp"
+                    android:textColor="#388E3C"
+                    android:textStyle="bold"/>
+            </LinearLayout>
 
-        <!-- Balance -->
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:orientation="vertical">
-            <TextView
-                android:layout_width="wrap_content"
+            <!-- Expense -->
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Balance"
-                android:textSize="14sp"
-                android:textStyle="bold"
-                android:textColor="#212121"/>
-            <TextView
-                android:id="@+id/tvBalance"
-                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_expense"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    android:textColor="#757575"/>
+                <TextView
+                    android:id="@+id/tvExpense"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0.00"
+                    android:textSize="18sp"
+                    android:textColor="#D32F2F"
+                    android:textStyle="bold"/>
+            </LinearLayout>
+
+            <!-- Balance -->
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="0.00"
-                android:textSize="16sp"
-                android:textColor="#212121"
-                android:textStyle="bold"/>
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_balance"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    android:textColor="#757575"/>
+                <TextView
+                    android:id="@+id/tvBalance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0.00"
+                    android:textSize="18sp"
+                    android:textColor="#1976D2"
+                    android:textStyle="bold"/>
+            </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Category Wise Total"
+        android:text="@string/label_category_wise_total"
         android:textStyle="bold"
         android:textSize="16sp"
-        android:textColor="#000000"
+        android:textColor="?attr/colorOnSurface"
         android:paddingBottom="8dp"/>
 
     <!-- List of category totals -->
@@ -98,6 +110,7 @@
         android:id="@+id/lvCategoryTotals"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:divider="?android:attr/listDivider"
         android:dividerHeight="1dp" />
 
 </LinearLayout>
